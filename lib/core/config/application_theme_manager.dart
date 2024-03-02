@@ -6,7 +6,7 @@ class ApplicationThemeManager {
 //Light Mode ****************************
   static ThemeData lightTheme = ThemeData(
     primaryColor: primaryColor,
-    scaffoldBackgroundColor: Colors.transparent,
+    scaffoldBackgroundColor: const Color(0xffDFECDB),
 
     //App Bar ***********************************
     appBarTheme: const AppBarTheme(
@@ -17,6 +17,43 @@ class ApplicationThemeManager {
         iconTheme: IconThemeData(
           color: Colors.white,
         )),
+
+    //BottomNavigator Bar ***********************************
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      type: BottomNavigationBarType.fixed,
+      showSelectedLabels: false,
+      showUnselectedLabels: false,
+      selectedItemColor: primaryColor,
+      unselectedItemColor: Color(0xffC8C9CB),
+      selectedIconTheme: IconThemeData(
+        color: primaryColor,
+        size: 38,
+      ),
+      unselectedIconTheme: IconThemeData(
+        color: Color(0xffC8C9CB),
+        size: 30,
+      ),
+    ),
+
+    // ********** floating Action Button *****************
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: primaryColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(50),
+        side: const BorderSide(
+          color: Colors.white,
+          width: 2.5,
+        ),
+      ),
+    ),
+
+    // ********** bottom AppBar Theme *****************
+    bottomAppBarTheme: const BottomAppBarTheme(
+      padding: EdgeInsets.zero,
+      elevation: 0,
+    ),
 
     //Text Style *******************************
     textTheme: const TextTheme(
@@ -52,7 +89,7 @@ class ApplicationThemeManager {
 
   static ThemeData darkTheme = ThemeData(
     primaryColor: primaryColor,
-    scaffoldBackgroundColor: Colors.transparent,
+    scaffoldBackgroundColor: const Color(0xff060E1E),
 
     //App Bar ***********************************
     appBarTheme: const AppBarTheme(
@@ -63,6 +100,44 @@ class ApplicationThemeManager {
         iconTheme: IconThemeData(
           color: Colors.white,
         )),
+
+    //BottomNavigator Bar ***********************************
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      type: BottomNavigationBarType.fixed,
+      showSelectedLabels: false,
+      showUnselectedLabels: false,
+      selectedItemColor: primaryColor,
+      unselectedItemColor: Color(0xffC8C9CB),
+      selectedIconTheme: IconThemeData(
+        color: primaryColor,
+        size: 38,
+      ),
+      unselectedIconTheme: IconThemeData(
+        color: Color(0xffC8C9CB),
+        size: 30,
+      ),
+    ),
+
+    // ********** floating Action Button *****************
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: primaryColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(50),
+        side: const BorderSide(
+          color: Color(0xff141922),
+          width: 2.5,
+        ),
+      ),
+    ),
+
+    // ********** bottom AppBar Theme *****************
+    bottomAppBarTheme: const BottomAppBarTheme(
+      color: Color(0xff141922),
+      padding: EdgeInsets.zero,
+      elevation: 0,
+    ),
 
     //Text Style *******************************
     textTheme: const TextTheme(

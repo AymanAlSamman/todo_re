@@ -1,7 +1,8 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:todo/features/login/login_view.dart';
+import 'package:provider/provider.dart';
+import 'package:todo/layout_view.dart';
+import 'package:todo/settings_provider.dart';
 
 class SplashView extends StatefulWidget {
   static const String routeName = '/';
@@ -17,14 +18,16 @@ class _SplashViewState extends State<SplashView> {
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 2), () {
-      Navigator.pushReplacementNamed(context, LoginView.routeName);
+      Navigator.pushReplacementNamed(context, LayoutView.routeName);
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    var vm = Provider.of<SettingsProvider>(context);
     return Scaffold(
-      backgroundColor: const Color(0xffDFECDB),
+      backgroundColor:
+          vm.isDark() ? const Color(0xff060E1E) : const Color(0xffDFECDB),
       body: Center(child: Image.asset('assets/images/todo_logo.png')),
     );
   }
