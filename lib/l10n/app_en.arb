@@ -4,5 +4,21 @@
   "language": "Language",
   "theme": "Theme",
   "light": "Light",
-  "dark": "Dark"
+  "dark": "Dark",
+  "welcome": "Welcome Back!",
+  "email": "E-Mail",
+  "password": "Password",
+  "forget": "Forget password?",
+  "login": "Login",
+  "or": "OR",
+  "create": "Create Account",
+  "full": "Full name",
+  "confirm": "Confirm password",
+  "enterM": "Enter your E-mail address",
+  "enterP": "Enter you password",
+  "enterF": "Enter your name",
+  "nameError": "You must enter your name",
+  "mailError": "You must enter your e-mail address",
+  "passwordError": "You must enter your password",
+  "confirmError": "Password not matched"
 }

@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
       initialRoute: SplashView.routeName,
       routes: {
         SplashView.routeName: (context) => const SplashView(),
-        LoginView.routeName: (context) => const LoginView(),
+        LoginView.routeName: (context) => LoginView(),
         RegisterView.routeName: (context) => RegisterView(),
         LayoutView.routeName: (context) => LayoutView(),
       },

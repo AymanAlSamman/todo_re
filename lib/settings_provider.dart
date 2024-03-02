@@ -4,7 +4,7 @@ import 'package:todo/features/tasks/page/task_view.dart';
 
 class SettingsProvider extends ChangeNotifier {
   int currentIndex = 0;
-  String currentLanguage = 'en';
+  String currentLanguage = 'ar';
   ThemeMode currentTheme = ThemeMode.light;
 
   List<Widget> screens = [

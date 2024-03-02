@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo/core/widget/custom_text_field.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RegisterView extends StatelessWidget {
   static const String routeName = 'Register';
@@ -13,6 +14,7 @@ class RegisterView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var lang = AppLocalizations.of(context);
     var mediaQuery = MediaQuery.of(context).size;
     var theme = Theme.of(context);
     return Container(
@@ -25,9 +27,10 @@ class RegisterView extends StatelessWidget {
             fit: BoxFit.cover),
       ),
       child: Scaffold(
+        backgroundColor: Colors.transparent,
         appBar: AppBar(
           title: Text(
-            'Create Account',
+            lang!.create,
             style: theme.textTheme.titleLarge,
           ),
         ),
@@ -43,17 +46,17 @@ class RegisterView extends StatelessWidget {
 
                   // ********** First Name ***********
                   Text(
-                    'First name',
+                    lang.full,
                     style: theme.textTheme.bodySmall,
                   ),
                   CustomTextField(
                     controller: fullNameController,
-                    hint: 'Enter your name',
+                    hint: lang.enterF,
                     hintColor: Colors.grey,
                     suffixWidget: const Icon(Icons.person),
                     onValidate: (value) {
                       if (value == null || value.trim().isEmpty) {
-                        return 'You must enter your name';
+                        return lang.nameError;
                       }
                       return null;
                     },
@@ -64,17 +67,17 @@ class RegisterView extends StatelessWidget {
                     height: 20.0,
                   ),
                   Text(
-                    'E-mail',
+                    lang.email,
                     style: theme.textTheme.bodySmall,
                   ),
                   CustomTextField(
                     controller: emailController,
-                    hint: 'Enter your e-mail address',
+                    hint: lang.enterM,
                     hintColor: Colors.grey,
                     suffixWidget: const Icon(Icons.email_rounded),
                     onValidate: (value) {
                       if (value == null || value.trim().isEmpty) {
-                        return 'You must enter your e-mail address';
+                        return lang.mailError;
                       }
                       var regex = RegExp(
                           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
@@ -90,18 +93,18 @@ class RegisterView extends StatelessWidget {
                     height: 20.0,
                   ),
                   Text(
-                    'Password',
+                    lang.password,
                     style: theme.textTheme.bodySmall,
                   ),
                   CustomTextField(
                     controller: passwordController,
                     isPassword: true,
                     maxLines: 1,
-                    hint: 'Enter your password',
+                    hint: lang.enterP,
                     hintColor: Colors.grey,
                     onValidate: (value) {
                       if (value == null || value.trim().isEmpty) {
-                        return 'You must enter password';
+                        return lang.passwordError;
                       }
                       var rexEx = RegExp(
                           r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
@@ -117,21 +120,21 @@ class RegisterView extends StatelessWidget {
                     height: 20.0,
                   ),
                   Text(
-                    'Confirm password',
+                    lang.confirm,
                     style: theme.textTheme.bodySmall,
                   ),
                   CustomTextField(
                     controller: confirmPasswordController,
                     isPassword: true,
                     maxLines: 1,
-                    hint: 'Enter your password',
+                    hint: lang.enterP,
                     hintColor: Colors.grey,
                     onValidate: (value) {
                       if (value == null || value.trim().isEmpty) {
-                        return 'You must enter password';
+                        return lang.enterP;
                       }
                       if (value != passwordController.text) {
-                        return 'Password not matched!';
+                        return lang.confirmError;
                       }
                       return null;
                     },
@@ -144,9 +147,7 @@ class RegisterView extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                         backgroundColor: theme.primaryColor),
                     onPressed: () {
-                      if (formKey.currentState!.validate()) {
-                        print('Validate');
-                      }
+                      if (formKey.currentState!.validate()) {}
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
@@ -154,7 +155,7 @@ class RegisterView extends StatelessWidget {
                       child: Row(
                         children: [
                           Text(
-                            'Create Account',
+                            lang.create,
                             style: theme.textTheme.bodyMedium?.copyWith(
                               color: Colors.white,
                               fontSize: 20,
