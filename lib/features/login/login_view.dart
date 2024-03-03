@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:provider/provider.dart';
+import 'package:todo/core/services/snack_bar_service.dart';
 import 'package:todo/core/widget/custom_text_field.dart';
 import 'package:todo/features/register/register_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:todo/firebase_utils.dart';
+import 'package:todo/layout_view.dart';
+import 'package:todo/settings_provider.dart';
 
 class LoginView extends StatelessWidget {
   static const String routeName = 'Login';
@@ -16,10 +22,11 @@ class LoginView extends StatelessWidget {
     var mediaQuery = MediaQuery.of(context).size;
     var theme = Theme.of(context);
     var lang = AppLocalizations.of(context);
+    var vm = Provider.of<SettingsProvider>(context);
     return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xffDFECDB),
-        image: DecorationImage(
+      decoration: BoxDecoration(
+        color: vm.isDark() ? const Color(0xff060E1E) : const Color(0xffDFECDB),
+        image: const DecorationImage(
             image: AssetImage(
               'assets/images/login.png',
             ),
@@ -44,8 +51,11 @@ class LoginView extends StatelessWidget {
                   SizedBox(height: mediaQuery.height * 0.2),
                   Text(
                     lang.welcome,
-                    style: theme.textTheme.titleLarge
-                        ?.copyWith(color: Colors.black),
+                    style: vm.isDark()
+                        ? theme.textTheme.titleLarge
+                            ?.copyWith(color: Colors.white)
+                        : theme.textTheme.titleLarge
+                            ?.copyWith(color: Colors.black),
                   ),
                   const SizedBox(height: 20),
                   Text(
@@ -53,12 +63,13 @@ class LoginView extends StatelessWidget {
                     style: theme.textTheme.bodySmall,
                   ),
 
-                  //********** MAIL ***************
+                  //********** Mail ***************
                   CustomTextField(
                     controller: mailController,
                     hint: lang.enterM,
                     hintColor: Colors.grey.shade400,
-                    suffixWidget: const Icon(Icons.email_rounded),
+                    suffixWidget:
+                        const Icon(Icons.email_rounded, color: Colors.grey),
                     onValidate: (value) {
                       if (value == null || value.trim().isEmpty) {
                         return lang.mailError;
@@ -109,7 +120,23 @@ class LoginView extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                         backgroundColor: theme.primaryColor),
                     onPressed: () {
-                      if (formKey.currentState!.validate()) {}
+                      if (formKey.currentState!.validate()) {
+                        FirebaseUtils()
+                            .loginUserAccount(
+                                mailController.text, passwordController.text)
+                            .then((value) {
+                          if (value == true) {
+                            EasyLoading.dismiss();
+                            SnackBarService.showSuccessMessage(
+                                'Successfully logged in');
+                            Navigator.pushReplacementNamed(
+                                context, LayoutView.routeName);
+                          } else if (value == false) {
+                            SnackBarService.showErrorMessage(
+                                'Unable to log in, Verify your email and password');
+                          }
+                        });
+                      }
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
@@ -124,7 +151,7 @@ class LoginView extends StatelessWidget {
                               fontSize: 20,
                             ),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           const Icon(
                             Icons.arrow_forward,
                           ),
@@ -137,9 +164,12 @@ class LoginView extends StatelessWidget {
                     children: [
                       Text(
                         lang.or,
-                        style: theme.textTheme.bodyLarge?.copyWith(
-                          fontSize: 20,
-                        ),
+                        style: vm.isDark()
+                            ? theme.textTheme.bodyLarge
+                                ?.copyWith(color: Colors.white, fontSize: 17)
+                            : theme.textTheme.bodyLarge?.copyWith(
+                                fontSize: 20,
+                              ),
                       ),
                       const SizedBox(
                         width: 2,
@@ -150,7 +180,13 @@ class LoginView extends StatelessWidget {
                         },
                         child: Text(
                           lang.create,
-                          style: theme.textTheme.bodyMedium,
+                          style: vm.isDark()
+                              ? theme.textTheme.bodyLarge?.copyWith(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  decoration: TextDecoration.underline,
+                                )
+                              : theme.textTheme.bodyLarge,
                         ),
                       )
                     ],

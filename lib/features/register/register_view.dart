@@ -1,6 +1,12 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:provider/provider.dart';
 import 'package:todo/core/widget/custom_text_field.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:todo/features/login/login_view.dart';
+import 'package:todo/firebase_utils.dart';
+import 'package:todo/settings_provider.dart';
 
 class RegisterView extends StatelessWidget {
   static const String routeName = 'Register';
@@ -17,10 +23,11 @@ class RegisterView extends StatelessWidget {
     var lang = AppLocalizations.of(context);
     var mediaQuery = MediaQuery.of(context).size;
     var theme = Theme.of(context);
+    var vm = Provider.of<SettingsProvider>(context);
     return Container(
-      decoration: const BoxDecoration(
-        color: Color(0xffDFECDB),
-        image: DecorationImage(
+      decoration: BoxDecoration(
+        color: vm.isDark() ? const Color(0xff060E1E) : const Color(0xffDFECDB),
+        image: const DecorationImage(
             image: AssetImage(
               'assets/images/login.png',
             ),
@@ -53,7 +60,10 @@ class RegisterView extends StatelessWidget {
                     controller: fullNameController,
                     hint: lang.enterF,
                     hintColor: Colors.grey,
-                    suffixWidget: const Icon(Icons.person),
+                    suffixWidget: const Icon(
+                      Icons.person,
+                      color: Colors.grey,
+                    ),
                     onValidate: (value) {
                       if (value == null || value.trim().isEmpty) {
                         return lang.nameError;
@@ -74,7 +84,10 @@ class RegisterView extends StatelessWidget {
                     controller: emailController,
                     hint: lang.enterM,
                     hintColor: Colors.grey,
-                    suffixWidget: const Icon(Icons.email_rounded),
+                    suffixWidget: const Icon(
+                      Icons.email_rounded,
+                      color: Colors.grey,
+                    ),
                     onValidate: (value) {
                       if (value == null || value.trim().isEmpty) {
                         return lang.mailError;
@@ -147,7 +160,18 @@ class RegisterView extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                         backgroundColor: theme.primaryColor),
                     onPressed: () {
-                      if (formKey.currentState!.validate()) {}
+                      if (formKey.currentState!.validate()) {
+                        FirebaseUtils()
+                            .createUserAccount(
+                                emailController.text, passwordController.text)
+                            .then((value) {
+                          if (value) {
+                            EasyLoading.dismiss();
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, LoginView.routeName, (route) => false);
+                          }
+                        });
+                      }
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(

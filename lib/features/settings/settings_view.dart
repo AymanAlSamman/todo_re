@@ -1,6 +1,7 @@
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo/features/login/login_view.dart';
 import 'package:todo/settings_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -107,6 +108,36 @@ class SettingsView extends StatelessWidget {
                       Icons.keyboard_arrow_up_rounded,
                       color: vm.isDark() ? theme.primaryColor : Colors.black,
                     )),
+              ),
+
+              SizedBox(height: 60),
+
+              // **** Logout ****
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: theme.primaryColor),
+                onPressed: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, LoginView.routeName, (route) => false);
+                },
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: Row(
+                    children: [
+                      Text(
+                        "Logout",
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const Spacer(),
+                      const Icon(Icons.logout)
+                    ],
+                  ),
+                ),
               ),
             ],
           ),

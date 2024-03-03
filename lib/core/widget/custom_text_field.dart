@@ -88,7 +88,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 },
                 child: Icon(
                   obscureText ? Icons.visibility : Icons.visibility_off,
-                  // color: Colors.grey,
+                  color: Colors.grey,
                 ),
               )
             : widget.suffixWidget,
