@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo/core/utils/extract_data.dart';
 import 'package:todo/features/tasks/widget/task_item_widget.dart';
+import 'package:todo/firebase_utils.dart';
+import 'package:todo/models/task_model.dart';
 import 'package:todo/settings_provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -125,6 +129,7 @@ class _TasksViewState extends State<TasksView> {
               onDateChange: (selectedDate) {
                 setState(() {
                   focusTime = selectedDate;
+                  vm.selectedDate = focusTime;
                 });
               },
             ),
@@ -133,17 +138,43 @@ class _TasksViewState extends State<TasksView> {
         const SizedBox(
           height: 60,
         ),
-        Expanded(
-          child: ListView(
-            children: [
-              TaskItemWidget(),
-              TaskItemWidget(),
-              TaskItemWidget(),
-              TaskItemWidget(),
-              TaskItemWidget(),
-            ],
+        StreamBuilder<QuerySnapshot<TaskModel>>(
+          stream: FirebaseUtils().getStreamDataFromFireStore(
+            vm.selectedDate,
           ),
-        )
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return Column(
+                children: [
+                  const Text('Something went wrong'),
+                  IconButton(
+                    onPressed: () {
+                      FirebaseUtils().getDataFromFireStore(
+                          extractDateTime(vm.selectedDate));
+                    },
+                    icon: const Icon(
+                      Icons.refresh,
+                    ),
+                  ),
+                ],
+              );
+            }
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            var tasksList =
+                snapshot.data?.docs.map((e) => e.data()).toList() ?? [];
+            return Expanded(
+              child: ListView.builder(
+                padding: EdgeInsets.zero,
+                itemBuilder: (context, index) =>
+                    TaskItemWidget(taskModel: tasksList[index]),
+                itemCount: tasksList.length,
+              ),
+            );
+          },
+        ),
       ],
     );
   }

@@ -110,7 +110,7 @@ class SettingsView extends StatelessWidget {
                     )),
               ),
 
-              SizedBox(height: 60),
+              const SizedBox(height: 60),
 
               // **** Logout ****
               ElevatedButton(

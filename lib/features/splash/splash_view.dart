@@ -19,7 +19,7 @@ class _SplashViewState extends State<SplashView> {
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 2), () {
-      Navigator.pushReplacementNamed(context, LoginView.routeName);
+      Navigator.pushReplacementNamed(context, LayoutView.routeName);
     });
   }
 

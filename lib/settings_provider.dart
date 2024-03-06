@@ -6,6 +6,20 @@ class SettingsProvider extends ChangeNotifier {
   int currentIndex = 0;
   String currentLanguage = 'en';
   ThemeMode currentTheme = ThemeMode.light;
+  DateTime selectedDate = DateTime.now();
+
+  selectTaskDate(BuildContext context) async {
+    var currentSelectedDate = await showDatePicker(
+      context: context,
+      currentDate: DateTime.now(),
+      initialDate: selectedDate,
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
+    );
+    if (currentSelectedDate == null) return;
+    selectedDate = currentSelectedDate;
+    notifyListeners();
+  }
 
   List<Widget> screens = [
     TasksView(),

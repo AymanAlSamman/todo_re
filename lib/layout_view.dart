@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo/features/settings/settings_view.dart';
-import 'package:todo/features/tasks/page/task_view.dart';
+import 'package:todo/features/task_bottom_sheet.dart';
 import 'package:todo/settings_provider.dart';
 
 class LayoutView extends StatelessWidget {
@@ -20,7 +19,21 @@ class LayoutView extends StatelessWidget {
       //******* floating Action Button **********
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          showModalBottomSheet(
+            isScrollControlled: true,
+            context: context,
+            backgroundColor: Colors.transparent,
+            builder: (context) => const TaskBottomSheet(),
+          );
+
+          // var data = TaskModel(title: "Play basketball",
+          //     description: "10:15 AM",
+          //     isDone: false,
+          //     dateTime: DateTime.now(),);
+          //
+          // FirebaseUtils().addANewTask(data);
+        },
         child: const Icon(
           Icons.add,
           size: 32,
